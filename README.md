@@ -14,7 +14,6 @@
 
 🔗 **[View Live on GitHub Pages →](https://akshay42github.github.io/PRODIGY_WD_02/)**
 
-> Replace `YOUR-USERNAME` with your actual GitHub username after deployment.
 
 ---
 
