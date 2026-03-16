@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChronoTrack — Precision Time Tracking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- CANVAS BACKGROUND -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <span class="logo-icon">⊕</span>
+        <span class="logo-text">Chrono<span class="logo-accent">Track</span></span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#stopwatch" class="nav-link">Stopwatch</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#stopwatch" class="nav-cta">Launch Timer</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-overlay" id="mobile-overlay">
+    <ul class="mobile-links">
+      <li><a href="#home" class="mobile-link">Home</a></li>
+      <li><a href="#stopwatch" class="mobile-link">Stopwatch</a></li>
+      <li><a href="#features" class="mobile-link">Features</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="home" class="section hero-section">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Professional Grade Timing
+      </div>
+      <h1 class="hero-title">
+        Precision Time<br/>
+        <span class="gradient-text">Tracking</span> Made<br/>
+        Simple.
+      </h1>
+      <p class="hero-sub">
+        ChronoTrack delivers millisecond-accurate timing for athletes, developers, 
+        and productivity enthusiasts who refuse to settle for less.
+      </p>
+      <div class="hero-actions">
+        <a href="#stopwatch" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Start Stopwatch
+        </a>
+        <a href="#features" class="btn-ghost">Explore Features</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">1ms</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Lap Records</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Free</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="clock-ring ring-outer"></div>
+      <div class="clock-ring ring-mid"></div>
+      <div class="clock-ring ring-inner"></div>
+      <div class="clock-face">
+        <div class="clock-display" id="hero-clock">00:00</div>
+        <div class="clock-label">LIVE</div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ========== STOPWATCH SECTION ========== -->
+  <section id="stopwatch" class="section stopwatch-section">
+    <div class="section-header">
+      <div class="section-tag">Core Tool</div>
+      <h2 class="section-title">The <span class="gradient-text">Stopwatch</span></h2>
+      <p class="section-sub">Millisecond precision. Zero distractions.</p>
+    </div>
+
+    <div class="stopwatch-wrapper">
+      <div class="sw-display-outer">
+        <div class="sw-glow"></div>
+        <div class="sw-display">
+          <div class="sw-status" id="sw-status">READY</div>
+          <div class="sw-time">
+            <span class="sw-segment" id="sw-hours">00</span>
+            <span class="sw-colon">:</span>
+            <span class="sw-segment" id="sw-minutes">00</span>
+            <span class="sw-colon">:</span>
+            <span class="sw-segment" id="sw-seconds">00</span>
+            <span class="sw-dot">.</span>
+            <span class="sw-segment sw-ms" id="sw-ms">000</span>
+          </div>
+          <div class="sw-progress-bar">
+            <div class="sw-progress-fill" id="sw-progress"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sw-controls">
+        <button class="sw-btn sw-btn-secondary" id="btn-reset" title="Reset">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-3.12"></path></svg>
+          Reset
+        </button>
+        <button class="sw-btn sw-btn-primary" id="btn-start">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3" id="play-icon"></polygon></svg>
+          <span id="btn-start-text">Start</span>
+        </button>
+        <button class="sw-btn sw-btn-secondary" id="btn-lap" title="Record Lap" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Lap
+        </button>
+      </div>
+
+      <!-- LAP RECORDS -->
+      <div class="lap-container" id="lap-container">
+        <div class="lap-header">
+          <span>Lap Records</span>
+          <span class="lap-count" id="lap-count">0 laps</span>
+        </div>
+        <div class="lap-empty" id="lap-empty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <p>No laps recorded yet</p>
+        </div>
+        <ul class="lap-list" id="lap-list"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES SECTION ========== -->
+  <section id="features" class="section features-section">
+    <div class="section-header">
+      <div class="section-tag">Why ChronoTrack</div>
+      <h2 class="section-title">Built for <span class="gradient-text">Performance</span></h2>
+      <p class="section-sub">Every feature crafted with purpose and precision.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card card-accent-cyan">
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+        <h3>Millisecond Accuracy</h3>
+        <p>Powered by the browser's high-resolution timer API for sub-millisecond precision that professional athletes and developers demand.</p>
+        <div class="card-line"></div>
+      </div>
+
+      <div class="feature-card card-accent-blue featured-card">
+        <div class="feature-badge">Most Used</div>
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        </div>
+        <h3>Unlimited Lap Recording</h3>
+        <p>Capture as many split times as you need. Each lap shows elapsed time and the delta from the previous lap — perfect for interval training.</p>
+        <div class="card-line"></div>
+      </div>
+
+      <div class="feature-card card-accent-violet">
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <h3>Fully Responsive</h3>
+        <p>Works flawlessly on every screen — from 4K monitors to pocket phones. Optimized touch controls and adaptive layout for any device.</p>
+        <div class="card-line"></div>
+      </div>
+
+      <div class="feature-card card-accent-amber">
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+        </div>
+        <h3>Instant Performance</h3>
+        <p>Zero dependencies, no frameworks. Pure HTML, CSS, and JS that loads in milliseconds and runs offline. No installs, no sign-ups.</p>
+        <div class="card-line"></div>
+      </div>
+
+      <div class="feature-card card-accent-green">
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <h3>Privacy First</h3>
+        <p>Everything runs locally in your browser. No data is ever sent to any server. Your timing sessions remain completely private.</p>
+        <div class="card-line"></div>
+      </div>
+
+      <div class="feature-card card-accent-pink">
+        <div class="feature-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"></path></svg>
+        </div>
+        <h3>Dark Mode Native</h3>
+        <p>Designed from the ground up for dark environments. Easy on your eyes during late-night sessions, marathons, and focused work blocks.</p>
+        <div class="card-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT SECTION ========== -->
+  <section id="about" class="section about-section">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-ring-wrap">
+          <div class="about-ring ar1"></div>
+          <div class="about-ring ar2"></div>
+          <div class="about-ring ar3"></div>
+          <div class="about-core">
+            <span class="about-icon">⏱</span>
+          </div>
+        </div>
+        <div class="about-stat-cards">
+          <div class="about-stat-card">
+            <span class="asc-num">99.9%</span>
+            <span class="asc-label">Uptime</span>
+          </div>
+          <div class="about-stat-card">
+            <span class="asc-num">0ms</span>
+            <span class="asc-label">Load Delay</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <div class="section-tag">Our Story</div>
+        <h2 class="section-title">Time is your most <span class="gradient-text">valuable</span> asset.</h2>
+        <p class="about-text">
+          ChronoTrack was built on a simple belief: measuring time shouldn't require an app download, 
+          a subscription, or a complicated interface. Whether you're a marathon runner tracking splits, 
+          a developer benchmarking code, or a student managing study sessions — you deserve a tool 
+          that's as fast as your ambitions.
+        </p>
+        <p class="about-text">
+          We obsessed over every pixel, every millisecond, and every interaction to deliver 
+          the cleanest, most accurate stopwatch on the web. No noise. No bloat. Just time.
+        </p>
+        <div class="about-highlights">
+          <div class="highlight">
+            <div class="highlight-dot"></div>
+            <span>Browser-native timing with <code>performance.now()</code></span>
+          </div>
+          <div class="highlight">
+            <div class="highlight-dot"></div>
+            <span>Works offline — no internet required after first load</span>
+          </div>
+          <div class="highlight">
+            <div class="highlight-dot"></div>
+            <span>Keyboard shortcut support for power users</span>
+          </div>
+          <div class="highlight">
+            <div class="highlight-dot"></div>
+            <span>Accessible and WCAG-compliant design</span>
+          </div>
+        </div>
+        <a href="#stopwatch" class="btn-primary">Try It Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT SECTION ========== -->
+  <section id="contact" class="section contact-section">
+    <div class="section-header">
+      <div class="section-tag">Get In Touch</div>
+      <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+      <p class="section-sub">Questions, feedback, or just want to say hi? We'd love to hear from you.</p>
+    </div>
+
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="ci-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </div>
+          <div>
+            <span class="ci-label">Email</span>
+            <span class="ci-val">hello@chronotrack.app</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div>
+            <span class="ci-label">Location</span>
+            <span class="ci-val">www.chronotrack.app</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </div>
+          <div>
+            <span class="ci-label">Twitter</span>
+            <span class="ci-val">@chronotrack</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@example.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="What's this about?" />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell us what's on your mind..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary btn-full">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Send Message
+        </button>
+        <div class="form-success" id="form-success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Message sent! We'll get back to you soon.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-icon">⊕</span>
+        <span class="logo-text">Chrono<span class="logo-accent">Track</span></span>
+      </div>
+      <p class="footer-copy">© 2025 ChronoTrack. Crafted with precision. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#stopwatch">Stopwatch</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
